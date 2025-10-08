@@ -10,10 +10,13 @@ export const Hero = () => {
   return (
     <section className="relative min-h-[600px] md:min-h-[700px] flex items-center">
       {/* Background Image */}
-      <div 
-        className="absolute inset-0 bg-cover bg-center"
-        style={{ backgroundImage: `url(${heroHome})` }}
-      >
+      <div className="absolute inset-0">
+        <img 
+          src={heroHome} 
+          alt="Beautiful painted suburban home" 
+          className="w-full h-full object-cover"
+          fetchPriority="high"
+        />
         <div className="absolute inset-0 bg-gradient-to-r from-primary/95 via-primary/85 to-primary/70" />
       </div>
 
