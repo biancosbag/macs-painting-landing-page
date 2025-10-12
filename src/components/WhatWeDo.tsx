@@ -27,7 +27,7 @@ export const WhatWeDo = () => {
             Professional Painting Services
           </h2>
           <p className="text-lg text-muted-foreground">
-            We specialize in residential painting for homes across Pennsylvania and New Jersey
+            We specialize in residential painting for homes across Pennsylvania
           </p>
         </div>
 

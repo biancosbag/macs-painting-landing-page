@@ -1,15 +1,11 @@
 import { MapPin } from "lucide-react";
 
-const areas = {
-  PA: [
-    "Doylestown", "Newtown", "Yardley", "Richboro", "Warrington",
-    "King of Prussia", "Wayne", "Paoli", "West Chester", "Media"
-  ],
-  NJ: [
-    "Moorestown", "Haddonfield", "Cherry Hill", "Marlton", "Mount Laurel",
-    "Voorhees", "Collingswood", "Medford"
-  ]
-};
+const areas = [
+  "Doylestown", "Newtown", "Yardley", "Richboro", "Warrington",
+  "King of Prussia", "Wayne", "Paoli", "West Chester", "Media",
+  "Lansdale", "Ambler", "Hatboro", "Horsham", "Willow Grove",
+  "Plymouth Meeting"
+];
 
 export const ServiceAreas = () => {
   return (
@@ -19,7 +15,7 @@ export const ServiceAreas = () => {
           <div className="flex items-center justify-center mb-4">
             <MapPin className="h-8 w-8 text-accent mr-2" />
             <h2 className="text-3xl md:text-4xl font-bold text-foreground">
-              Proudly Serving PA & NJ
+              Proudly Serving Pennsylvania
             </h2>
           </div>
           <p className="text-xl text-muted-foreground">
@@ -27,32 +23,16 @@ export const ServiceAreas = () => {
           </p>
         </div>
 
-        <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+        <div className="max-w-4xl mx-auto">
           <div className="bg-card rounded-lg p-8 shadow-md">
-            <h3 className="text-2xl font-bold text-primary mb-4">
-              Pennsylvania
+            <h3 className="text-2xl font-bold text-primary mb-4 text-center">
+              Pennsylvania Service Areas
             </h3>
-            <p className="text-sm text-muted-foreground mb-4">
+            <p className="text-sm text-muted-foreground mb-6 text-center">
               Bucks, Montgomery, Chester, Delaware Counties
             </p>
-            <div className="grid grid-cols-2 gap-3">
-              {areas.PA.map((city, index) => (
-                <div key={index} className="text-foreground">
-                  • {city}
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div className="bg-card rounded-lg p-8 shadow-md">
-            <h3 className="text-2xl font-bold text-primary mb-4">
-              New Jersey
-            </h3>
-            <p className="text-sm text-muted-foreground mb-4">
-              Burlington, Camden, Gloucester Counties
-            </p>
-            <div className="grid grid-cols-2 gap-3">
-              {areas.NJ.map((city, index) => (
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
+              {areas.map((city, index) => (
                 <div key={index} className="text-foreground">
                   • {city}
                 </div>

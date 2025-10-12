@@ -8,7 +8,7 @@ export const Footer = () => {
           <div>
             <h3 className="text-2xl font-bold mb-4">Mac's Painting</h3>
             <p className="text-primary-foreground/80 mb-4">
-              Professional residential painting for Pennsylvania and New Jersey. Clean inside. Proud outside.
+              Professional residential painting for Pennsylvania. Clean inside. Proud outside.
             </p>
           </div>
 
@@ -29,7 +29,7 @@ export const Footer = () => {
               </div>
               <div className="flex items-start">
                 <MapPin className="h-5 w-5 mr-2 mt-1" />
-                <span>Serving PA & NJ Suburbs</span>
+                <span>Serving PA Suburbs</span>
               </div>
             </div>
           </div>
