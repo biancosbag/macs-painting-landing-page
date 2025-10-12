@@ -9,13 +9,13 @@ const projects = [
     before: beforeExterior,
     after: afterExterior,
     title: "Exterior Transformation",
-    location: "Haddonfield, NJ",
+    location: "Berwyn, PA",
   },
   {
     before: beforeInterior,
     after: afterInterior,
     title: "Interior Refresh",
-    location: "Marlton, NJ",
+    location: "Villanova, PA",
   },
 ];
 

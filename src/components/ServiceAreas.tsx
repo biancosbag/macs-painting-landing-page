@@ -1,10 +1,9 @@
 import { MapPin } from "lucide-react";
 
 const areas = [
-  "Doylestown", "Newtown", "Yardley", "Richboro", "Warrington",
-  "King of Prussia", "Wayne", "Paoli", "West Chester", "Media",
-  "Lansdale", "Ambler", "Hatboro", "Horsham", "Willow Grove",
-  "Plymouth Meeting"
+  "Mount Airy", "Ardmore", "Chestnut Hill", "Manayunk", "Wayne",
+  "Rosemont", "Villanova", "Philadelphia", "King of Prussia", "Bryn Mawr",
+  "Berwyn", "Delaware County", "Valley Forge", "Malvern", "Media"
 ];
 
 export const ServiceAreas = () => {
