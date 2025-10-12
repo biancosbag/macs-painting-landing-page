@@ -8,7 +8,7 @@ export const Footer = () => {
           <div>
             <h3 className="text-2xl font-bold mb-4">Mac's Painting</h3>
             <p className="text-primary-foreground/80 mb-4">
-              Professional residential painting for Pennsylvania. Clean inside. Proud outside.
+              Professional residential painting for Philadelphia and nearby areas. Clean inside. Proud outside.
             </p>
           </div>
 

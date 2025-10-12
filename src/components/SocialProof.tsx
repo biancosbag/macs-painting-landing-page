@@ -3,22 +3,22 @@ import { Card, CardContent } from "@/components/ui/card";
 
 const testimonials = [
   {
-    name: "Emily Parker",
-    location: "Mount Airy, PA",
+    name: "Tom Kowalyk",
+    location: "North Wales, PA",
     rating: 5,
-    text: "Mac's Painting transformed our living room just in time for Thanksgiving! Byron and his team were punctual, incredibly clean, and respectful of our home. The quality is outstanding.",
+    text: "Exceptional service and quality at a fair price. We hired Macs Painting to paint an entire condo - walls, ceilings and trim. Byron and his team did such a good job, we hired them again to paint our 16\" family room (walls, ceilings & trim) in our other place. It turned out beautiful and the attention to detail is great. Highly recommended!",
   },
   {
-    name: "Karen Whitman",
-    location: "Chestnut Hill, PA",
+    name: "Thoma Madonna",
+    location: "Philadelphia",
     rating: 5,
-    text: "After 20+ years in our home, we finally found a painter we trust. The exterior looks brand new, and they protected our garden beautifully. No mess, no stress.",
+    text: "Mac's Painting is the real deal. I've hired dozens of contractors over the years and it's hard to find good, quality help. Mac's is always on time, meets the agreed schedule, super communicative, works with you on options and cost.....and best of all, no BS. Bryon says something, he makes it happen. The reasonable price is well worth the service.",
   },
   {
-    name: "Thomas Reed",
-    location: "Rosemont, PA",
+    name: "Catty Campion",
+    location: "Philadelphia",
     rating: 5,
-    text: "We needed fast, quality work before our move. Mac's delivered in 48 hours with zero drama. Professional, coordinated perfectly with other contractors. Highly recommend!",
+    text: "We had the pews in our church refurbished because the finish was all chipping and pealing. I think they are more beautiful than the original job! Very respectful and pleasant too. They are hard workers. Will have more work done by them.",
   },
 ];
 

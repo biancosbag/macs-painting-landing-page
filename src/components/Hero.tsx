@@ -29,7 +29,7 @@ export const Hero = () => {
             Proud Outside.
           </h1>
           <p className="text-xl md:text-2xl text-primary-foreground/90 mb-8 leading-relaxed">
-            Professional painting for Pennsylvania homes. On-time arrival, zero-mess process, and results that last.
+            Professional painting for Philadelphia and nearby areas homes. On-time arrival, zero-mess process, and results that last.
           </p>
           
           <div className="flex flex-col sm:flex-row gap-4">

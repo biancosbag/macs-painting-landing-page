@@ -14,7 +14,7 @@ export const ServiceAreas = () => {
           <div className="flex items-center justify-center mb-4">
             <MapPin className="h-8 w-8 text-accent mr-2" />
             <h2 className="text-3xl md:text-4xl font-bold text-foreground">
-              Proudly Serving Pennsylvania
+              Proudly Serving Philadelphia and Nearby Areas
             </h2>
           </div>
           <p className="text-xl text-muted-foreground">
@@ -25,7 +25,7 @@ export const ServiceAreas = () => {
         <div className="max-w-4xl mx-auto">
           <div className="bg-card rounded-lg p-8 shadow-md">
             <h3 className="text-2xl font-bold text-primary mb-4 text-center">
-              Pennsylvania Service Areas
+              Philadelphia and Nearby Areas Service Areas
             </h3>
             <p className="text-sm text-muted-foreground mb-6 text-center">
               Bucks, Montgomery, Chester, Delaware Counties
