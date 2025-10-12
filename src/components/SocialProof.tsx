@@ -4,19 +4,19 @@ import { Card, CardContent } from "@/components/ui/card";
 const testimonials = [
   {
     name: "Emily Parker",
-    location: "Marlton, NJ",
+    location: "Mount Airy, PA",
     rating: 5,
     text: "Mac's Painting transformed our living room just in time for Thanksgiving! Byron and his team were punctual, incredibly clean, and respectful of our home. The quality is outstanding.",
   },
   {
     name: "Karen Whitman",
-    location: "Haddonfield, NJ",
+    location: "Chestnut Hill, PA",
     rating: 5,
     text: "After 20+ years in our home, we finally found a painter we trust. The exterior looks brand new, and they protected our garden beautifully. No mess, no stress.",
   },
   {
     name: "Thomas Reed",
-    location: "West Chester, PA",
+    location: "Rosemont, PA",
     rating: 5,
     text: "We needed fast, quality work before our move. Mac's delivered in 48 hours with zero drama. Professional, coordinated perfectly with other contractors. Highly recommend!",
   },
