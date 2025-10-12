@@ -70,8 +70,8 @@ export const ContactForm = () => {
                   <Phone className="h-6 w-6 text-accent mr-3" />
                   <div>
                     <div className="text-sm text-muted-foreground">Call Us</div>
-                    <a href="tel:+12155551234" className="text-lg font-semibold text-foreground hover:text-primary">
-                      (215) 555-1234
+                    <a href="tel:+12675163306" className="text-lg font-semibold text-foreground hover:text-primary">
+                      (267) 516-3306
                     </a>
                   </div>
                 </div>
@@ -82,8 +82,8 @@ export const ContactForm = () => {
                   <Mail className="h-6 w-6 text-accent mr-3" />
                   <div>
                     <div className="text-sm text-muted-foreground">Email Us</div>
-                    <a href="mailto:info@macspainting.com" className="text-lg font-semibold text-foreground hover:text-primary">
-                      info@macspainting.com
+                    <a href="mailto:byron@macspp.co" className="text-lg font-semibold text-foreground hover:text-primary">
+                      byron@macspp.co
                     </a>
                   </div>
                 </div>

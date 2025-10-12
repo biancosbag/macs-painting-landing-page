@@ -17,14 +17,14 @@ export const Footer = () => {
             <div className="space-y-3">
               <div className="flex items-center">
                 <Phone className="h-5 w-5 mr-2" />
-                <a href="tel:+12155551234" className="hover:text-accent transition-colors">
-                  (215) 555-1234
+                <a href="tel:+12675163306" className="hover:text-accent transition-colors">
+                  (267) 516-3306
                 </a>
               </div>
               <div className="flex items-center">
                 <Mail className="h-5 w-5 mr-2" />
-                <a href="mailto:info@macspainting.com" className="hover:text-accent transition-colors">
-                  info@macspainting.com
+                <a href="mailto:byron@macspp.co" className="hover:text-accent transition-colors">
+                  byron@macspp.co
                 </a>
               </div>
               <div className="flex items-start">

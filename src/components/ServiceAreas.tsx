@@ -41,7 +41,7 @@ export const ServiceAreas = () => {
         </div>
 
         <p className="text-center mt-8 text-muted-foreground">
-          Don't see your town? <span className="text-primary font-semibold">Call us</span> - we may still serve your area!
+          Don't see your town? <a href="tel:+12675163306" className="text-primary font-semibold hover:underline">Call us</a> - we may still serve your area!
         </p>
       </div>
     </section>

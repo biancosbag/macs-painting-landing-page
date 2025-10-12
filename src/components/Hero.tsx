@@ -47,9 +47,9 @@ export const Hero = () => {
               className="text-lg px-8 py-6 border-2 border-primary-foreground text-primary-foreground hover:bg-primary-foreground hover:text-primary"
               asChild
             >
-              <a href="tel:+12155551234">
+              <a href="tel:+12675163306">
                 <Phone className="mr-2 h-5 w-5" />
-                (215) 555-1234
+                (267) 516-3306
               </a>
             </Button>
           </div>
