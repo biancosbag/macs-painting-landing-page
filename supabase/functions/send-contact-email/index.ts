@@ -54,7 +54,7 @@ const handler = async (req: Request): Promise<Response> => {
         "Authorization": `Bearer ${RESEND_API_KEY}`,
       },
       body: JSON.stringify({
-        from: "Mac's Painting <onboarding@resend.dev>",
+        from: "Mac's Painting <byron@macspp.co>",
         to: ["byron@macspp.co"],
         subject: `New Quote Request from ${formData.name}`,
         html: emailHtml,
@@ -96,7 +96,7 @@ const handler = async (req: Request): Promise<Response> => {
         "Authorization": `Bearer ${RESEND_API_KEY}`,
       },
       body: JSON.stringify({
-        from: "Mac's Professional Painting <onboarding@resend.dev>",
+        from: "Mac's Professional Painting <byron@macspp.co>",
         to: [formData.email],
         subject: "Your Quote Request - Mac's Professional Painting",
         html: customerEmailHtml,
