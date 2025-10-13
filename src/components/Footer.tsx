@@ -58,6 +58,10 @@ export const Footer = () => {
             <Link to="/facebook-ads-privacy" className="hover:text-accent transition-colors underline">
               Facebook Ads Privacy
             </Link>
+            <span>|</span>
+            <Link to="/unsubscribe" className="hover:text-accent transition-colors underline">
+              Unsubscribe
+            </Link>
           </p>
         </div>
       </div>

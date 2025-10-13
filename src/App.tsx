@@ -9,6 +9,7 @@ import Admin from "./pages/Admin";
 import ThankYou from "./pages/ThankYou";
 import TermsAndConditions from "./pages/TermsAndConditions";
 import FacebookAdsPrivacy from "./pages/FacebookAdsPrivacy";
+import Unsubscribe from "./pages/Unsubscribe";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -26,6 +27,7 @@ const App = () => (
           <Route path="/thank-you" element={<ThankYou />} />
           <Route path="/terms" element={<TermsAndConditions />} />
           <Route path="/facebook-ads-privacy" element={<FacebookAdsPrivacy />} />
+          <Route path="/unsubscribe" element={<Unsubscribe />} />
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>
