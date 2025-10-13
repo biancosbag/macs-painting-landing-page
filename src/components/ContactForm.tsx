@@ -23,9 +23,12 @@ export const ContactForm = () => {
     e.preventDefault();
     setIsSubmitting(true);
 
+    console.log('Form submission started', formData);
+
     try {
       // Save to database
-      const { error: dbError } = await supabase
+      console.log('Attempting to save to database...');
+      const { data, error: dbError } = await supabase
         .from('form_submissions')
         .insert([{
           name: formData.name,
@@ -34,7 +37,10 @@ export const ContactForm = () => {
           city: formData.city,
           project_type: formData.projectType,
           message: formData.message,
-        }]);
+        }])
+        .select();
+
+      console.log('Database response:', { data, error: dbError });
 
       if (dbError) throw dbError;
 
