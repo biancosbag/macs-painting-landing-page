@@ -1,9 +1,10 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
+import { Checkbox } from "@/components/ui/checkbox";
 import { useToast } from "@/hooks/use-toast";
 import { Phone, Mail } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
@@ -41,7 +42,11 @@ const contactSchema = z.object({
   message: z.string()
     .trim()
     .max(1000, "Message must be less than 1000 characters")
-    .optional()
+    .optional(),
+  consent: z.boolean()
+    .refine((val) => val === true, {
+      message: "You must accept the terms and conditions to continue"
+    })
 });
 
 export const ContactForm = () => {
@@ -56,6 +61,7 @@ export const ContactForm = () => {
     city: "",
     projectType: "",
     message: "",
+    consent: false,
   });
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -331,12 +337,44 @@ export const ContactForm = () => {
                   )}
                 </div>
 
+                <div className="flex items-start space-x-2">
+                  <Checkbox
+                    id="consent"
+                    checked={formData.consent}
+                    onCheckedChange={(checked) => {
+                      if (errors.consent) {
+                        setErrors({ ...errors, consent: "" });
+                      }
+                      setFormData({ ...formData, consent: checked as boolean });
+                    }}
+                  />
+                  <div className="grid gap-1.5 leading-none">
+                    <label
+                      htmlFor="consent"
+                      className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer"
+                    >
+                      I agree to the{" "}
+                      <Link 
+                        to="/terms" 
+                        target="_blank"
+                        className="text-accent hover:underline font-semibold"
+                      >
+                        Terms & Conditions
+                      </Link>{" "}
+                      and Privacy Policy *
+                    </label>
+                    {errors.consent && (
+                      <p className="text-sm text-destructive">{errors.consent}</p>
+                    )}
+                  </div>
+                </div>
+
                 <Button 
                   type="submit" 
                   variant="cta" 
                   size="lg" 
                   className="w-full text-lg"
-                  disabled={isSubmitting}
+                  disabled={isSubmitting || !formData.consent}
                 >
                   {isSubmitting ? "Sending..." : "Request Free Estimate"}
                 </Button>
