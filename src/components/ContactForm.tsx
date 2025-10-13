@@ -5,6 +5,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { Phone, Mail } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
 
 export const ContactForm = () => {
   const { toast } = useToast();
@@ -22,13 +23,36 @@ export const ContactForm = () => {
     e.preventDefault();
     setIsSubmitting(true);
 
-    // Simulate form submission
-    setTimeout(() => {
+    try {
+      // Save to database
+      const { error: dbError } = await supabase
+        .from('form_submissions')
+        .insert([{
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone,
+          city: formData.city,
+          project_type: formData.projectType,
+          message: formData.message,
+        }]);
+
+      if (dbError) throw dbError;
+
+      // Send email notification
+      const { error: emailError } = await supabase.functions.invoke('send-contact-email', {
+        body: formData,
+      });
+
+      if (emailError) {
+        console.error('Email notification failed:', emailError);
+        // Don't throw - submission was saved successfully
+      }
+
       toast({
         title: "Request Received!",
         description: "We'll contact you within 24 hours with your free estimate.",
       });
-      setIsSubmitting(false);
+
       setFormData({
         name: "",
         email: "",
@@ -37,7 +61,16 @@ export const ContactForm = () => {
         projectType: "",
         message: "",
       });
-    }, 1000);
+    } catch (error: any) {
+      console.error('Form submission error:', error);
+      toast({
+        title: "Submission Failed",
+        description: "There was an error submitting your request. Please try again or call us directly.",
+        variant: "destructive",
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   const handleChange = (
