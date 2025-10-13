@@ -1,6 +1,7 @@
 import { serve } from "https://deno.land/std@0.190.0/http/server.ts";
 
 const RESEND_API_KEY = Deno.env.get("RESEND_API_KEY");
+const BREVO_API_KEY = Deno.env.get("BREVO_API_KEY");
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -111,6 +112,36 @@ const handler = async (req: Request): Promise<Response> => {
     } else {
       const customerEmailData = await customerEmailResponse.json();
       console.log("Customer confirmation email sent successfully:", customerEmailData);
+    }
+
+    // Send SMS via Brevo
+    try {
+      const smsMessage = `Hi ${formData.name}! Thank you for your quote request with Mac's Professional Painting. We'll contact you at ${formData.phone} within 24 hours. For urgent matters, call (267) 516-3306.`;
+      
+      const smsResponse = await fetch("https://api.brevo.com/v3/transactionalSMS/sms", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          "api-key": BREVO_API_KEY!,
+        },
+        body: JSON.stringify({
+          type: "transactional",
+          recipient: formData.phone,
+          sender: "MacsPainting",
+          content: smsMessage,
+        }),
+      });
+
+      if (!smsResponse.ok) {
+        const smsError = await smsResponse.text();
+        console.error("Brevo SMS failed:", smsError);
+      } else {
+        const smsData = await smsResponse.json();
+        console.log("SMS sent successfully via Brevo:", smsData);
+      }
+    } catch (smsError: any) {
+      console.error("Error sending SMS:", smsError.message);
+      // Don't fail the entire request if SMS fails
     }
 
     return new Response(JSON.stringify({ success: true, ownerEmailId: ownerEmailData.id }), {
