@@ -47,8 +47,8 @@ export const Process = () => {
             return (
               <div key={index} className="text-center">
                 <div className="mb-4 flex justify-center">
-                  <div className="w-20 h-20 rounded-full bg-primary/10 flex items-center justify-center">
-                    <Icon className="h-10 w-10 text-primary" />
+                  <div className="w-20 h-20 rounded-full bg-primary/10 flex items-center justify-center transition-all duration-300 hover:bg-accent hover:scale-110 group">
+                    <Icon className="h-10 w-10 text-primary transition-colors duration-300 group-hover:text-accent-foreground" />
                   </div>
                 </div>
                 <div className="mb-2 text-sm font-semibold text-accent">
