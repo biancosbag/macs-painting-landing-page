@@ -33,7 +33,7 @@ export const FeaturedTestimonial = () => {
           <img 
             src={reviewSusanBlank} 
             alt="Susan Blank testimonial - Thanks to Mac's Painting, I sold my house faster - West Chester"
-            className={`w-full h-auto rounded-lg shadow-lg ${isVisible ? 'animate-fadeInUp' : 'opacity-0'}`}
+            className={`w-full h-auto rounded-lg shadow-lg ${isVisible ? 'animate-fadeIn' : 'opacity-0'}`}
           />
         </div>
       </div>

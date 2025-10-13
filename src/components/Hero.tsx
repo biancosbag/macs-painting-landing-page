@@ -26,8 +26,8 @@ export const Hero = () => {
         <img 
           src={heroHome} 
           alt="Beautiful painted suburban home" 
-          className="w-full h-full object-cover transition-transform duration-100"
-          style={{ transform: `scale(${1 + scrollY * 0.0003}) translateY(${scrollY * 0.5}px)` }}
+          className="w-full h-full object-cover transition-transform duration-300 ease-out"
+          style={{ transform: `translateY(${scrollY * 0.3}px)` }}
           fetchPriority="high"
         />
         <div className="absolute inset-0 bg-gradient-to-r from-primary/95 via-primary/85 to-primary/70" />
