@@ -44,9 +44,12 @@ export const ContactForm = () => {
       if (dbError) throw dbError;
 
       // Send email notification
-      const { error: emailError } = await supabase.functions.invoke('send-contact-email', {
+      console.log('Invoking send-contact-email edge function...');
+      const { data: emailData, error: emailError } = await supabase.functions.invoke('send-contact-email', {
         body: formData,
       });
+
+      console.log('Edge function response:', { emailData, emailError });
 
       if (emailError) {
         console.error('Email notification failed:', emailError);
