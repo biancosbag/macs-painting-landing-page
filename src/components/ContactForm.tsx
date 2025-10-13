@@ -7,11 +7,48 @@ import { Label } from "@/components/ui/label";
 import { useToast } from "@/hooks/use-toast";
 import { Phone, Mail } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
+import { z } from "zod";
+
+const PA_CITIES = [
+  "Philadelphia", "Pittsburgh", "Allentown", "Reading", "Erie", "Scranton",
+  "Bethlehem", "Lancaster", "Harrisburg", "Altoona", "York", "State College",
+  "Wilkes-Barre", "Chester", "Williamsport", "Easton", "Lebanon", "Hazleton",
+  "New Castle", "Johnstown", "McKeesport", "Hermitage", "Greensburg", "Pottstown",
+  "Bloomsburg", "Washington", "East Stroudsburg", "Carlisle", "Butler", "Chambersburg",
+  "Phoenixville", "Monroeville", "Plum", "Murrysville", "West Chester", "King of Prussia",
+  "Norristown", "Willow Grove", "Drexel Hill", "Levittown", "Media", "Broomall",
+  "Marlton", "Cherry Hill", "Voorhees", "Mount Laurel"
+].sort();
+
+const contactSchema = z.object({
+  name: z.string()
+    .trim()
+    .min(2, "Name must be at least 2 characters")
+    .max(100, "Name must be less than 100 characters")
+    .regex(/^[a-zA-Z\s'-]+$/, "Name can only contain letters, spaces, hyphens, and apostrophes"),
+  email: z.string()
+    .trim()
+    .email("Please enter a valid email address")
+    .max(255, "Email must be less than 255 characters"),
+  phone: z.string()
+    .trim()
+    .regex(/^[\d\s()+-]+$/, "Phone can only contain numbers and standard formatting characters")
+    .min(10, "Phone number must be at least 10 digits"),
+  city: z.string()
+    .min(1, "Please select a city"),
+  projectType: z.string()
+    .min(1, "Please select a project type"),
+  message: z.string()
+    .trim()
+    .max(1000, "Message must be less than 1000 characters")
+    .optional()
+});
 
 export const ContactForm = () => {
   const { toast } = useToast();
   const navigate = useNavigate();
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [errors, setErrors] = useState<Record<string, string>>({});
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -23,9 +60,30 @@ export const ContactForm = () => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setIsSubmitting(true);
+    setErrors({});
+    
+    // Validate form data
+    try {
+      contactSchema.parse(formData);
+    } catch (error) {
+      if (error instanceof z.ZodError) {
+        const newErrors: Record<string, string> = {};
+        error.errors.forEach((err) => {
+          if (err.path[0]) {
+            newErrors[err.path[0].toString()] = err.message;
+          }
+        });
+        setErrors(newErrors);
+        toast({
+          title: "Validation Error",
+          description: "Please check the form fields and try again.",
+          variant: "destructive",
+        });
+        return;
+      }
+    }
 
-    console.log('Form submission started', formData);
+    setIsSubmitting(true);
 
     try {
       // Save to database
@@ -75,9 +133,38 @@ export const ContactForm = () => {
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
   ) => {
+    const { name, value } = e.target;
+    
+    // Clear error for this field when user starts typing
+    if (errors[name]) {
+      setErrors({ ...errors, [name]: "" });
+    }
+    
     setFormData({
       ...formData,
-      [e.target.name]: e.target.value,
+      [name]: value,
+    });
+  };
+
+  const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value.replace(/[^\d\s()+-]/g, '');
+    if (errors.phone) {
+      setErrors({ ...errors, phone: "" });
+    }
+    setFormData({
+      ...formData,
+      phone: value,
+    });
+  };
+
+  const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value.replace(/[^a-zA-Z\s'-]/g, '');
+    if (errors.name) {
+      setErrors({ ...errors, name: "" });
+    }
+    setFormData({
+      ...formData,
+      name: value,
     });
   };
 
@@ -139,11 +226,14 @@ export const ContactForm = () => {
                       id="name"
                       name="name"
                       value={formData.name}
-                      onChange={handleChange}
+                      onChange={handleNameChange}
                       required
                       placeholder="Your name"
                       className="mt-2"
                     />
+                    {errors.name && (
+                      <p className="text-sm text-destructive mt-1">{errors.name}</p>
+                    )}
                   </div>
                   <div>
                     <Label htmlFor="phone">Phone *</Label>
@@ -152,11 +242,14 @@ export const ContactForm = () => {
                       name="phone"
                       type="tel"
                       value={formData.phone}
-                      onChange={handleChange}
+                      onChange={handlePhoneChange}
                       required
                       placeholder="(555) 555-5555"
                       className="mt-2"
                     />
+                    {errors.phone && (
+                      <p className="text-sm text-destructive mt-1">{errors.phone}</p>
+                    )}
                   </div>
                 </div>
 
@@ -173,18 +266,30 @@ export const ContactForm = () => {
                       placeholder="your@email.com"
                       className="mt-2"
                     />
+                    {errors.email && (
+                      <p className="text-sm text-destructive mt-1">{errors.email}</p>
+                    )}
                   </div>
                   <div>
-                    <Label htmlFor="city">City/Town *</Label>
-                    <Input
+                    <Label htmlFor="city">City/Town (Pennsylvania) *</Label>
+                    <select
                       id="city"
                       name="city"
                       value={formData.city}
                       onChange={handleChange}
                       required
-                      placeholder="e.g., Marlton, NJ"
-                      className="mt-2"
-                    />
+                      className="mt-2 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
+                    >
+                      <option value="">Select a city</option>
+                      {PA_CITIES.map((city) => (
+                        <option key={city} value={city}>
+                          {city}
+                        </option>
+                      ))}
+                    </select>
+                    {errors.city && (
+                      <p className="text-sm text-destructive mt-1">{errors.city}</p>
+                    )}
                   </div>
                 </div>
 
@@ -205,6 +310,9 @@ export const ContactForm = () => {
                     <option value="combo">Interior + Exterior Combo</option>
                     <option value="other">Other</option>
                   </select>
+                  {errors.projectType && (
+                    <p className="text-sm text-destructive mt-1">{errors.projectType}</p>
+                  )}
                 </div>
 
                 <div>
@@ -216,7 +324,11 @@ export const ContactForm = () => {
                     onChange={handleChange}
                     placeholder="Any specific details about your painting project..."
                     className="mt-2 min-h-[120px]"
+                    maxLength={1000}
                   />
+                  {errors.message && (
+                    <p className="text-sm text-destructive mt-1">{errors.message}</p>
+                  )}
                 </div>
 
                 <Button 
