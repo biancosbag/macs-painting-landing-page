@@ -1,29 +1,14 @@
 import { Button } from "@/components/ui/button";
 import { Phone } from "lucide-react";
 import heroHome from "@/assets/hero-home.jpg";
-import { useScroll, useTransform, motion } from 'motion/react';
-import { useRef } from 'react';
 
 export const Hero = () => {
   const scrollToForm = () => {
     document.getElementById("contact-form")?.scrollIntoView({ behavior: "smooth" });
   };
 
-  const container = useRef<HTMLElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: container,
-    offset: ['start start', 'end end'],
-  });
-
-  const scale = useTransform(scrollYProgress, [0, 1], [1, 0.95]);
-  const rotate = useTransform(scrollYProgress, [0, 1], [0, -2]);
-
   return (
-    <motion.section 
-      ref={container}
-      style={{ scale, rotate }}
-      className="sticky top-0 relative min-h-[600px] md:min-h-[700px] flex items-center"
-    >
+    <section className="relative min-h-[600px] md:min-h-[700px] flex items-center">
       {/* Background Image */}
       <div className="absolute inset-0">
         <img 
@@ -74,6 +59,6 @@ export const Hero = () => {
           </p>
         </div>
       </div>
-    </motion.section>
+    </section>
   );
 };
