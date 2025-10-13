@@ -1,20 +1,33 @@
 import { Button } from "@/components/ui/button";
 import { Phone } from "lucide-react";
 import heroHome from "@/assets/hero-home.jpg";
+import { useEffect, useState } from "react";
 
 export const Hero = () => {
+  const [scrollY, setScrollY] = useState(0);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrollY(window.scrollY);
+    };
+
+    window.addEventListener("scroll", handleScroll, { passive: true });
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   const scrollToForm = () => {
     document.getElementById("contact-form")?.scrollIntoView({ behavior: "smooth" });
   };
 
   return (
-    <section className="relative min-h-[600px] md:min-h-[700px] flex items-center">
+    <section className="relative min-h-[600px] md:min-h-[700px] flex items-center overflow-hidden">
       {/* Background Image */}
       <div className="absolute inset-0">
         <img 
           src={heroHome} 
           alt="Beautiful painted suburban home" 
-          className="w-full h-full object-cover"
+          className="w-full h-full object-cover transition-transform duration-100"
+          style={{ transform: `scale(${1 + scrollY * 0.0003}) translateY(${scrollY * 0.5}px)` }}
           fetchPriority="high"
         />
         <div className="absolute inset-0 bg-gradient-to-r from-primary/95 via-primary/85 to-primary/70" />
