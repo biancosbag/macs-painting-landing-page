@@ -1,4 +1,5 @@
 import { Phone, Mail, MapPin } from "lucide-react";
+import { Link } from "react-router-dom";
 
 export const Footer = () => {
   return (
@@ -49,6 +50,11 @@ export const Footer = () => {
         <div className="border-t border-primary-foreground/20 pt-8 text-center text-sm text-primary-foreground/60">
           <p>&copy; {new Date().getFullYear()} Mac's Painting. All rights reserved.</p>
           <p className="mt-2">Licensed & Insured | EPA Lead-Safe Certified</p>
+          <p className="mt-2">
+            <Link to="/terms" className="hover:text-accent transition-colors underline">
+              Terms & Conditions
+            </Link>
+          </p>
         </div>
       </div>
     </footer>
