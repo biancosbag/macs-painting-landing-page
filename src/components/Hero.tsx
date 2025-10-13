@@ -44,7 +44,7 @@ export const Hero = () => {
             <Button 
               variant="outline" 
               size="lg"
-              className="text-lg px-8 py-6 border-2 border-primary-foreground text-primary-foreground hover:bg-primary-foreground hover:text-primary"
+              className="text-lg px-8 py-6 border-2 border-primary-foreground bg-primary-foreground/10 text-primary-foreground font-semibold hover:bg-accent hover:text-accent-foreground hover:border-accent transition-all duration-300"
               asChild
             >
               <a href="tel:+12675163306">
