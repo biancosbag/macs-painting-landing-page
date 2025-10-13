@@ -51,6 +51,58 @@ const ThankYou = () => {
           </div>
         </div>
 
+        <div className="bg-accent/5 border border-accent/20 rounded-lg p-8 space-y-6">
+          <h2 className="text-2xl font-semibold text-foreground flex items-center justify-center gap-2">
+            <Mail className="w-6 h-6 text-accent" />
+            Check Your Email
+          </h2>
+          <p className="text-muted-foreground">
+            We've sent a confirmation email to your inbox. To ensure you receive all our communications:
+          </p>
+          <div className="space-y-3 text-left">
+            <div className="flex gap-3">
+              <div className="flex-shrink-0 w-6 h-6 rounded-full bg-accent/20 flex items-center justify-center text-accent font-bold text-sm">
+                1
+              </div>
+              <p className="text-muted-foreground pt-0.5">
+                Check your <strong>Spam</strong> or <strong>Promotions</strong> tab if you don't see our email
+              </p>
+            </div>
+            <div className="flex gap-3">
+              <div className="flex-shrink-0 w-6 h-6 rounded-full bg-accent/20 flex items-center justify-center text-accent font-bold text-sm">
+                2
+              </div>
+              <p className="text-muted-foreground pt-0.5">
+                Search for <strong>"Mac's Professional Painting"</strong> or <strong>byron@macspp.co</strong>
+              </p>
+            </div>
+            <div className="flex gap-3">
+              <div className="flex-shrink-0 w-6 h-6 rounded-full bg-accent/20 flex items-center justify-center text-accent font-bold text-sm">
+                3
+              </div>
+              <p className="text-muted-foreground pt-0.5">
+                Add <strong>byron@macspp.co</strong> to your contacts
+              </p>
+            </div>
+            <div className="flex gap-3">
+              <div className="flex-shrink-0 w-6 h-6 rounded-full bg-accent/20 flex items-center justify-center text-accent font-bold text-sm">
+                4
+              </div>
+              <p className="text-muted-foreground pt-0.5">
+                Mark as <strong>"Not Spam"</strong> if it landed in your spam folder
+              </p>
+            </div>
+            <div className="flex gap-3">
+              <div className="flex-shrink-0 w-6 h-6 rounded-full bg-accent/20 flex items-center justify-center text-accent font-bold text-sm">
+                5
+              </div>
+              <p className="text-muted-foreground pt-0.5">
+                Move the email to your <strong>Primary</strong> tab for future messages
+              </p>
+            </div>
+          </div>
+        </div>
+
         <div className="border-t border-border pt-8 space-y-4">
           <p className="text-foreground font-semibold">
             Need immediate assistance?
