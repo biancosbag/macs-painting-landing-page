@@ -23,16 +23,16 @@ export const Hero = () => {
       {/* Content */}
       <div className="container relative z-10 mx-auto px-4 py-16 md:py-24">
         <div className="max-w-2xl">
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-primary-foreground mb-6 leading-tight">
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-primary-foreground mb-6 leading-tight animate-fadeInUp delay-100">
             Clean Inside.
             <br />
             Proud Outside.
           </h1>
-          <p className="text-xl md:text-2xl text-primary-foreground/90 mb-8 leading-relaxed">
+          <p className="text-xl md:text-2xl text-primary-foreground/90 mb-8 leading-relaxed animate-fadeInUp delay-200">
             Professional painting for Philadelphia and nearby areas homes. On-time arrival, zero-mess process, and results that last.
           </p>
           
-          <div className="flex flex-col sm:flex-row gap-4">
+          <div className="flex flex-col sm:flex-row gap-4 animate-fadeInUp delay-300">
             <Button 
               variant="hero" 
               size="lg" 
@@ -54,7 +54,7 @@ export const Hero = () => {
             </Button>
           </div>
 
-          <p className="mt-6 text-sm text-primary-foreground/80">
+          <p className="mt-6 text-sm text-primary-foreground/80 animate-fadeInUp delay-400">
             ⭐ Trusted by families in Bucks, Montgomery, Chester & Delaware Counties
           </p>
         </div>
