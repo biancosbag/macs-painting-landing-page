@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -9,6 +10,7 @@ import { supabase } from "@/integrations/supabase/client";
 
 export const ContactForm = () => {
   const { toast } = useToast();
+  const navigate = useNavigate();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
@@ -56,19 +58,8 @@ export const ContactForm = () => {
         // Don't throw - submission was saved successfully
       }
 
-      toast({
-        title: "Request Received!",
-        description: "We'll contact you within 24 hours with your free estimate.",
-      });
-
-      setFormData({
-        name: "",
-        email: "",
-        phone: "",
-        city: "",
-        projectType: "",
-        message: "",
-      });
+      // Redirect to thank you page
+      navigate('/thank-you');
     } catch (error: any) {
       console.error('Form submission error:', error);
       toast({
