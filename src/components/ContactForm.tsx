@@ -189,7 +189,7 @@ export const ContactForm = () => {
                   <Phone className="h-6 w-6 text-accent mr-3" />
                   <div>
                     <div className="text-sm text-muted-foreground">Call Us</div>
-                    <a href="tel:+12675163306" className="text-lg font-semibold text-foreground hover:text-primary">
+                    <a href="tel:+12675163306" className="text-lg font-semibold text-foreground hover:text-accent transition-all duration-300 hover:translate-x-1 inline-block">
                       (267) 516-3306
                     </a>
                   </div>
@@ -201,7 +201,7 @@ export const ContactForm = () => {
                   <Mail className="h-6 w-6 text-accent mr-3" />
                   <div>
                     <div className="text-sm text-muted-foreground">Email Us</div>
-                    <a href="mailto:byron@macspp.co" className="text-lg font-semibold text-foreground hover:text-primary">
+                    <a href="mailto:byron@macspp.co" className="text-lg font-semibold text-foreground hover:text-accent transition-all duration-300 hover:translate-x-1 inline-block">
                       byron@macspp.co
                     </a>
                   </div>
