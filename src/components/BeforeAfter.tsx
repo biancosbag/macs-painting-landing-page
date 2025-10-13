@@ -37,21 +37,21 @@ export const BeforeAfter = () => {
             <Card key={index} className="overflow-hidden shadow-lg">
               <CardContent className="p-0">
                 <div className="grid grid-cols-2">
-                  <div className="relative">
+                  <div className="relative overflow-hidden">
                     <img 
                       src={project.before} 
                       alt={`Before - ${project.title}`}
-                      className="w-full h-64 object-cover"
+                      className="w-full h-64 object-cover transition-transform duration-500 hover:scale-110"
                     />
                     <div className="absolute top-4 left-4 bg-foreground/80 text-background px-3 py-1 rounded text-sm font-semibold">
                       Before
                     </div>
                   </div>
-                  <div className="relative">
+                  <div className="relative overflow-hidden">
                     <img 
                       src={project.after} 
                       alt={`After - ${project.title}`}
-                      className="w-full h-64 object-cover"
+                      className="w-full h-64 object-cover transition-transform duration-500 hover:scale-110"
                     />
                     <div className="absolute top-4 right-4 bg-accent text-accent-foreground px-3 py-1 rounded text-sm font-semibold">
                       After
