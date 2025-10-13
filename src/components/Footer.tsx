@@ -50,9 +50,13 @@ export const Footer = () => {
         <div className="border-t border-primary-foreground/20 pt-8 text-center text-sm text-primary-foreground/60">
           <p>&copy; {new Date().getFullYear()} Mac's Painting. All rights reserved.</p>
           <p className="mt-2">Licensed & Insured | EPA Lead-Safe Certified</p>
-          <p className="mt-2">
+          <p className="mt-3 space-x-4">
             <Link to="/terms" className="hover:text-accent transition-colors underline">
               Terms & Conditions
+            </Link>
+            <span>|</span>
+            <Link to="/facebook-ads-privacy" className="hover:text-accent transition-colors underline">
+              Facebook Ads Privacy
             </Link>
           </p>
         </div>
