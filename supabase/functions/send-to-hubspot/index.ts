@@ -12,6 +12,11 @@ interface ContactData {
   city: string;
   projectType: string;
   message?: string;
+  utm_source?: string;
+  utm_medium?: string;
+  utm_campaign?: string;
+  utm_content?: string;
+  utm_term?: string;
 }
 
 const handler = async (req: Request): Promise<Response> => {
@@ -41,6 +46,9 @@ const handler = async (req: Request): Promise<Response> => {
         hs_lead_status: 'NEW',
         project_type: contactData.projectType,
         message: contactData.message || '',
+        ...(contactData.utm_source && { hs_analytics_source: contactData.utm_source }),
+        ...(contactData.utm_medium && { hs_analytics_source_data_1: contactData.utm_medium }),
+        ...(contactData.utm_campaign && { hs_analytics_source_data_2: contactData.utm_campaign }),
       }
     };
 

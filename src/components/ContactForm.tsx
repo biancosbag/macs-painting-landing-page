@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -46,7 +46,12 @@ const contactSchema = z.object({
   consent: z.boolean()
     .refine((val) => val === true, {
       message: "You must accept the terms and conditions to continue"
-    })
+    }),
+  utm_source: z.string().optional(),
+  utm_medium: z.string().optional(),
+  utm_campaign: z.string().optional(),
+  utm_content: z.string().optional(),
+  utm_term: z.string().optional(),
 });
 
 export const ContactForm = () => {
@@ -62,7 +67,29 @@ export const ContactForm = () => {
     projectType: "",
     message: "",
     consent: false,
+    utm_source: "",
+    utm_medium: "",
+    utm_campaign: "",
+    utm_content: "",
+    utm_term: "",
   });
+
+  // Extract UTM parameters from URL on mount
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const utmData = {
+      utm_source: urlParams.get('utm_source') || '',
+      utm_medium: urlParams.get('utm_medium') || '',
+      utm_campaign: urlParams.get('utm_campaign') || '',
+      utm_content: urlParams.get('utm_content') || '',
+      utm_term: urlParams.get('utm_term') || '',
+    };
+
+    setFormData(prev => ({
+      ...prev,
+      ...utmData,
+    }));
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -103,6 +130,11 @@ export const ContactForm = () => {
           city: formData.city,
           project_type: formData.projectType,
           message: formData.message,
+          utm_source: formData.utm_source || null,
+          utm_medium: formData.utm_medium || null,
+          utm_campaign: formData.utm_campaign || null,
+          utm_content: formData.utm_content || null,
+          utm_term: formData.utm_term || null,
         }]);
 
       console.log('Database insert completed. Error:', dbError);
@@ -381,6 +413,13 @@ export const ContactForm = () => {
                     )}
                   </div>
                 </div>
+
+                {/* Hidden UTM fields */}
+                <input type="hidden" name="utm_source" value={formData.utm_source} />
+                <input type="hidden" name="utm_medium" value={formData.utm_medium} />
+                <input type="hidden" name="utm_campaign" value={formData.utm_campaign} />
+                <input type="hidden" name="utm_content" value={formData.utm_content} />
+                <input type="hidden" name="utm_term" value={formData.utm_term} />
 
                 <Button 
                   type="submit" 
