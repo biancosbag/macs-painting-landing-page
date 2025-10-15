@@ -6,5 +6,5 @@ verify_jwt = false
 [functions.send-to-hubspot]
 verify_jwt = false
 
-[functions.sync-to-sheets]
+[functions.send-webhook]
 verify_jwt = false

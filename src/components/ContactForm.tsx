@@ -167,9 +167,9 @@ export const ContactForm = () => {
         // Don't throw - submission was saved successfully
       }
 
-      // Sync to Google Sheets
-      console.log('Syncing to Google Sheets...');
-      const { data: sheetsData, error: sheetsError } = await supabase.functions.invoke('sync-to-sheets', {
+      // Send webhook
+      console.log('Sending webhook...');
+      const { data: webhookData, error: webhookError } = await supabase.functions.invoke('send-webhook', {
         body: {
           ...formData,
           project_type: formData.projectType,
@@ -177,10 +177,10 @@ export const ContactForm = () => {
         },
       });
 
-      console.log('Google Sheets response:', { sheetsData, sheetsError });
+      console.log('Webhook response:', { webhookData, webhookError });
 
-      if (sheetsError) {
-        console.error('Google Sheets sync failed:', sheetsError);
+      if (webhookError) {
+        console.error('Webhook failed:', webhookError);
         // Don't throw - submission was saved successfully
       }
 
