@@ -24,6 +24,11 @@ export type Database = {
           name: string
           phone: string
           project_type: string
+          utm_campaign: string | null
+          utm_content: string | null
+          utm_medium: string | null
+          utm_source: string | null
+          utm_term: string | null
         }
         Insert: {
           city: string
@@ -34,6 +39,11 @@ export type Database = {
           name: string
           phone: string
           project_type: string
+          utm_campaign?: string | null
+          utm_content?: string | null
+          utm_medium?: string | null
+          utm_source?: string | null
+          utm_term?: string | null
         }
         Update: {
           city?: string
@@ -44,6 +54,11 @@ export type Database = {
           name?: string
           phone?: string
           project_type?: string
+          utm_campaign?: string | null
+          utm_content?: string | null
+          utm_medium?: string | null
+          utm_source?: string | null
+          utm_term?: string | null
         }
         Relationships: []
       }
