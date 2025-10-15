@@ -122,6 +122,19 @@ export const ContactForm = () => {
         // Don't throw - submission was saved successfully
       }
 
+      // Send to HubSpot
+      console.log('Sending contact to HubSpot...');
+      const { data: hubspotData, error: hubspotError } = await supabase.functions.invoke('send-to-hubspot', {
+        body: formData,
+      });
+
+      console.log('HubSpot response:', { hubspotData, hubspotError });
+
+      if (hubspotError) {
+        console.error('HubSpot sync failed:', hubspotError);
+        // Don't throw - submission was saved successfully
+      }
+
       // Redirect to thank you page
       navigate('/thank-you');
     } catch (error: any) {
