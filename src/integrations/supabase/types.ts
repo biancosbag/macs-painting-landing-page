@@ -24,6 +24,7 @@ export type Database = {
           name: string
           phone: string
           project_type: string
+          status: string
           utm_campaign: string | null
           utm_content: string | null
           utm_medium: string | null
@@ -39,6 +40,7 @@ export type Database = {
           name: string
           phone: string
           project_type: string
+          status?: string
           utm_campaign?: string | null
           utm_content?: string | null
           utm_medium?: string | null
@@ -54,6 +56,7 @@ export type Database = {
           name?: string
           phone?: string
           project_type?: string
+          status?: string
           utm_campaign?: string | null
           utm_content?: string | null
           utm_medium?: string | null
