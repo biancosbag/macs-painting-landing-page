@@ -167,6 +167,23 @@ export const ContactForm = () => {
         // Don't throw - submission was saved successfully
       }
 
+      // Sync to Google Sheets
+      console.log('Syncing to Google Sheets...');
+      const { data: sheetsData, error: sheetsError } = await supabase.functions.invoke('sync-to-sheets', {
+        body: {
+          ...formData,
+          project_type: formData.projectType,
+          created_at: new Date().toISOString()
+        },
+      });
+
+      console.log('Google Sheets response:', { sheetsData, sheetsError });
+
+      if (sheetsError) {
+        console.error('Google Sheets sync failed:', sheetsError);
+        // Don't throw - submission was saved successfully
+      }
+
       // Redirect to thank you page
       navigate('/thank-you');
     } catch (error: any) {
