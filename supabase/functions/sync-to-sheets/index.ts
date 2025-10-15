@@ -24,15 +24,46 @@ interface FormSubmission {
 const SPREADSHEET_ID = "1cjwoOF1X5BVxPOO6KosIvwG5VbVX3RaT";
 
 async function getAccessToken(): Promise<string> {
-  const credentials = JSON.parse(Deno.env.get("GOOGLE_SHEETS_CREDENTIALS") || "{}");
-  
-  const jwtHeader = btoa(JSON.stringify({
-    alg: "RS256",
-    typ: "JWT"
-  }));
+  const raw = (Deno.env.get("GOOGLE_SHEETS_CREDENTIALS") || "").trim();
+  if (!raw) {
+    throw new Error("Missing GOOGLE_SHEETS_CREDENTIALS secret");
+  }
+
+  let credentials: any;
+  // Try multiple formats to be resilient to how the secret was pasted
+  try {
+    // 1) Direct JSON string
+    credentials = JSON.parse(raw);
+  } catch {
+    try {
+      // 2) Base64-encoded JSON
+      const decoded = new TextDecoder().decode(Uint8Array.from(atob(raw), c => c.charCodeAt(0)));
+      credentials = JSON.parse(decoded);
+    } catch {
+      // 3) Extract JSON object from surrounding text (e.g. code fences)
+      const start = raw.indexOf("{");
+      const end = raw.lastIndexOf("}");
+      if (start !== -1 && end !== -1 && end > start) {
+        try {
+          credentials = JSON.parse(raw.slice(start, end + 1));
+        } catch (e) {
+          throw new Error("Invalid GOOGLE_SHEETS_CREDENTIALS format. Please paste the exact JSON content.");
+        }
+      } else {
+        throw new Error("Invalid GOOGLE_SHEETS_CREDENTIALS value. Please paste the raw JSON file content.");
+      }
+    }
+  }
+
+  // Helper to produce base64url without padding
+  const base64url = (input: string) =>
+    btoa(input).replace(/\+/g, "-").replace(/\//g, "_").replace(/=+$/g, "");
+
+  // Create JWT header and payload (base64url encoded)
+  const jwtHeader = base64url(JSON.stringify({ alg: "RS256", typ: "JWT" }));
 
   const now = Math.floor(Date.now() / 1000);
-  const jwtClaimSet = btoa(JSON.stringify({
+  const jwtClaimSet = base64url(JSON.stringify({
     iss: credentials.client_email,
     scope: "https://www.googleapis.com/auth/spreadsheets",
     aud: "https://oauth2.googleapis.com/token",
@@ -41,18 +72,23 @@ async function getAccessToken(): Promise<string> {
   }));
 
   const signatureInput = `${jwtHeader}.${jwtClaimSet}`;
-  
+
   // Import the private key
-  const privateKey = credentials.private_key;
+  const privateKey: string = credentials.private_key;
+  if (!privateKey) {
+    throw new Error("private_key missing in GOOGLE_SHEETS_CREDENTIALS");
+  }
+
   const pemHeader = "-----BEGIN PRIVATE KEY-----";
   const pemFooter = "-----END PRIVATE KEY-----";
-  const pemContents = privateKey.substring(
-    pemHeader.length,
-    privateKey.length - pemFooter.length
-  ).replace(/\s/g, "");
-  
-  const binaryKey = Uint8Array.from(atob(pemContents), c => c.charCodeAt(0));
-  
+  const base64Key = privateKey
+    .replace(pemHeader, "")
+    .replace(pemFooter, "")
+    .replace(/\r?\n|\r/g, "")
+    .trim();
+
+  const binaryKey = Uint8Array.from(atob(base64Key), c => c.charCodeAt(0));
+
   const cryptoKey = await crypto.subtle.importKey(
     "pkcs8",
     binaryKey,
@@ -74,7 +110,7 @@ async function getAccessToken(): Promise<string> {
   const base64Signature = btoa(String.fromCharCode(...new Uint8Array(signature)))
     .replace(/\+/g, "-")
     .replace(/\//g, "_")
-    .replace(/=/g, "");
+    .replace(/=+$/g, "");
 
   const jwt = `${signatureInput}.${base64Signature}`;
 
@@ -88,6 +124,9 @@ async function getAccessToken(): Promise<string> {
   });
 
   const tokenData = await tokenResponse.json();
+  if (!tokenResponse.ok) {
+    throw new Error(`Failed to get access token: ${JSON.stringify(tokenData)}`);
+  }
   return tokenData.access_token;
 }
 
