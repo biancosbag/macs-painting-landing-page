@@ -5,39 +5,56 @@ import { useEffect } from "react";
 
 const ThankYou = () => {
   useEffect(() => {
-    // Trigger Facebook Pixel Lead event with retry + GTM dataLayer fallback
     const w = window as any;
 
-    // 1) Notify GTM in case you fire Pixel via a GTM Custom Event
+    // Push to GTM dataLayer immediately
     try {
       w.dataLayer = w.dataLayer || [];
-      w.dataLayer.push({ event: 'lead' });
-      console.log('[ThankYou] dataLayer event pushed: lead');
+      w.dataLayer.push({ 
+        event: 'lead',
+        eventCategory: 'Lead',
+        eventAction: 'Form Submission'
+      });
+      console.log('[ThankYou] GTM dataLayer event pushed: lead');
     } catch (e) {
-      console.warn('[ThankYou] Failed to push dataLayer lead event', e);
+      console.warn('[ThankYou] dataLayer push failed', e);
     }
 
-    // 2) Direct fbq call with retries (handles async load via GTM)
+    // Try immediate pixel fire
+    if (w.fbq) {
+      try {
+        w.fbq('track', 'Lead');
+        w.fbq('trackCustom', 'lead');
+        console.log('[ThankYou] FB Pixel fired immediately: Lead + lead');
+      } catch (err) {
+        console.warn('[ThankYou] Immediate pixel fire failed', err);
+      }
+    }
+
+    // Retry mechanism for delayed pixel load (up to 10 seconds)
     let attempts = 0;
-    let leadSent = false;
-    const MAX_ATTEMPTS = 20; // ~5s total @250ms
+    let leadSent = !!w.fbq;
+    const MAX_ATTEMPTS = 40; // 10s total @250ms
+    
     const interval = setInterval(() => {
       attempts++;
+      
       if (!leadSent && w.fbq) {
         try {
-          w.fbq('track', 'Lead');           // estándar
-          w.fbq('trackCustom', 'lead');     // personalizada (minúsculas)
+          w.fbq('track', 'Lead');
+          w.fbq('trackCustom', 'lead');
           leadSent = true;
-          console.log('[ThankYou] FB Pixel Lead + custom lead tracked');
+          console.log(`[ThankYou] FB Pixel fired on retry ${attempts}: Lead + lead`);
           clearInterval(interval);
         } catch (err) {
-          console.warn('[ThankYou] FB Pixel track error', err);
+          console.warn('[ThankYou] Retry pixel fire failed', err);
         }
       }
+      
       if (attempts >= MAX_ATTEMPTS) {
         clearInterval(interval);
         if (!leadSent) {
-          console.warn('[ThankYou] FB Pixel not available after waiting');
+          console.error('[ThankYou] FB Pixel still not available after 10s');
         }
       }
     }, 250);
