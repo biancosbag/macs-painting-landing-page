@@ -46,13 +46,7 @@ const ThankYou = () => {
   }, []);
 
   return (
-    <div 
-      className="min-h-screen bg-gradient-to-b from-background to-secondary flex items-center justify-center px-4"
-      data-gramm="false"
-      data-gramm_editor="false"
-      data-enable-grammarly="false"
-      data-calendly="false"
-    >
+    <div className="min-h-screen bg-gradient-to-b from-background to-secondary flex items-center justify-center px-4">
       <div className="max-w-2xl w-full text-center space-y-8 py-12">
         <div className="inline-flex items-center justify-center w-20 h-20 rounded-full bg-accent/10 mb-4">
           <CheckCircle className="w-12 h-12 text-accent" />
