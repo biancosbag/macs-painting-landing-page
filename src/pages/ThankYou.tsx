@@ -7,7 +7,7 @@ const ThankYou = () => {
   useEffect(() => {
     const w = window as any;
 
-    // Push to GTM dataLayer immediately
+    // Push to GTM dataLayer - GTM will handle the Facebook Pixel Lead event
     try {
       w.dataLayer = w.dataLayer || [];
       w.dataLayer.push({ 
@@ -19,47 +19,6 @@ const ThankYou = () => {
     } catch (e) {
       console.warn('[ThankYou] dataLayer push failed', e);
     }
-
-    // Try immediate pixel fire
-    if (w.fbq) {
-      try {
-        w.fbq('track', 'Lead');
-        w.fbq('trackCustom', 'lead');
-        console.log('[ThankYou] FB Pixel fired immediately: Lead + lead');
-      } catch (err) {
-        console.warn('[ThankYou] Immediate pixel fire failed', err);
-      }
-    }
-
-    // Retry mechanism for delayed pixel load (up to 10 seconds)
-    let attempts = 0;
-    let leadSent = !!w.fbq;
-    const MAX_ATTEMPTS = 40; // 10s total @250ms
-    
-    const interval = setInterval(() => {
-      attempts++;
-      
-      if (!leadSent && w.fbq) {
-        try {
-          w.fbq('track', 'Lead');
-          w.fbq('trackCustom', 'lead');
-          leadSent = true;
-          console.log(`[ThankYou] FB Pixel fired on retry ${attempts}: Lead + lead`);
-          clearInterval(interval);
-        } catch (err) {
-          console.warn('[ThankYou] Retry pixel fire failed', err);
-        }
-      }
-      
-      if (attempts >= MAX_ATTEMPTS) {
-        clearInterval(interval);
-        if (!leadSent) {
-          console.error('[ThankYou] FB Pixel still not available after 10s');
-        }
-      }
-    }, 250);
-
-    return () => clearInterval(interval);
   }, []);
 
   return (
