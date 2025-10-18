@@ -1,8 +1,16 @@
 import { Button } from "@/components/ui/button";
 import { CheckCircle, Phone, Mail } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useEffect } from "react";
 
 const ThankYou = () => {
+  useEffect(() => {
+    // Trigger Facebook Pixel Lead event
+    if (typeof window !== 'undefined' && (window as any).fbq) {
+      (window as any).fbq('track', 'Lead');
+    }
+  }, []);
+
   return (
     <div className="min-h-screen bg-gradient-to-b from-background to-secondary flex items-center justify-center px-4">
       <div className="max-w-2xl w-full text-center space-y-8 py-12">
