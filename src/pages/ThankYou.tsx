@@ -5,10 +5,43 @@ import { useEffect } from "react";
 
 const ThankYou = () => {
   useEffect(() => {
-    // Trigger Facebook Pixel Lead event
-    if (typeof window !== 'undefined' && (window as any).fbq) {
-      (window as any).fbq('track', 'Lead');
+    // Trigger Facebook Pixel Lead event with retry + GTM dataLayer fallback
+    const w = window as any;
+
+    // 1) Notify GTM in case you fire Pixel via a GTM Custom Event
+    try {
+      w.dataLayer = w.dataLayer || [];
+      w.dataLayer.push({ event: 'lead' });
+      console.log('[ThankYou] dataLayer event pushed: lead');
+    } catch (e) {
+      console.warn('[ThankYou] Failed to push dataLayer lead event', e);
     }
+
+    // 2) Direct fbq call with retries (handles async load via GTM)
+    let attempts = 0;
+    let leadSent = false;
+    const MAX_ATTEMPTS = 20; // ~5s total @250ms
+    const interval = setInterval(() => {
+      attempts++;
+      if (!leadSent && w.fbq) {
+        try {
+          w.fbq('track', 'Lead');
+          leadSent = true;
+          console.log('[ThankYou] FB Pixel Lead tracked');
+          clearInterval(interval);
+        } catch (err) {
+          console.warn('[ThankYou] FB Pixel Lead track error', err);
+        }
+      }
+      if (attempts >= MAX_ATTEMPTS) {
+        clearInterval(interval);
+        if (!leadSent) {
+          console.warn('[ThankYou] FB Pixel not available after waiting');
+        }
+      }
+    }, 250);
+
+    return () => clearInterval(interval);
   }, []);
 
   return (
