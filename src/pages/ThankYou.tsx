@@ -25,12 +25,13 @@ const ThankYou = () => {
       attempts++;
       if (!leadSent && w.fbq) {
         try {
-          w.fbq('track', 'Lead');
+          w.fbq('track', 'Lead');           // estándar
+          w.fbq('trackCustom', 'lead');     // personalizada (minúsculas)
           leadSent = true;
-          console.log('[ThankYou] FB Pixel Lead tracked');
+          console.log('[ThankYou] FB Pixel Lead + custom lead tracked');
           clearInterval(interval);
         } catch (err) {
-          console.warn('[ThankYou] FB Pixel Lead track error', err);
+          console.warn('[ThankYou] FB Pixel track error', err);
         }
       }
       if (attempts >= MAX_ATTEMPTS) {
