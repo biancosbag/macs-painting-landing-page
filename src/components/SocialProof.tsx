@@ -35,6 +35,23 @@ export const SocialProof = () => {
           </p>
         </div>
 
+        {/* Google Reviews Widget */}
+        <div className="max-w-4xl mx-auto mb-12">
+          <div className="flex justify-center">
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d24573.358299438757!2d-75.36956688715822!3d39.96023399999999!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c6c8f3b0f3b3b3%3A0x11vlc2n6x8!2sMac&#39;s%20Painting%20LLC!5e0!3m2!1sen!2sus!4v1234567890123!5m2!1sen!2sus"
+              width="100%"
+              height="400"
+              style={{ border: 0 }}
+              allowFullScreen
+              loading="lazy"
+              referrerPolicy="no-referrer-when-downgrade"
+              className="rounded-lg shadow-lg"
+              title="Mac's Painting LLC Google Reviews"
+            />
+          </div>
+        </div>
+
         <div className="grid md:grid-cols-3 gap-6 max-w-6xl mx-auto">
           {testimonials.map((testimonial, index) => (
             <Card key={index} className="border-none shadow-md hover:shadow-lg transition-shadow">
