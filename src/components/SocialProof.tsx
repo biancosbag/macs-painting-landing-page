@@ -10,7 +10,7 @@ const testimonials = [
     text: "Exceptional service and quality at a fair price. We hired Macs Painting to paint an entire condo - walls, ceilings and trim. Byron and his team did such a good job, we hired them again to paint our 16\" family room (walls, ceilings & trim) in our other place. It turned out beautiful and the attention to detail is great. Highly recommended!",
   },
   {
-    name: "Thoma Madonna",
+    name: "Thomas Madonna",
     location: "Philadelphia",
     rating: 5,
     date: "2024-11-22",
