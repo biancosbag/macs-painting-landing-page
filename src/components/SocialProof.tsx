@@ -17,7 +17,7 @@ const testimonials = [
     text: "Mac's Painting is the real deal. I've hired dozens of contractors over the years and it's hard to find good, quality help. Mac's is always on time, meets the agreed schedule, super communicative, works with you on options and cost.....and best of all, no BS. Bryon says something, he makes it happen. The reasonable price is well worth the service.",
   },
   {
-    name: "Catty Campion",
+    name: "Cathy Campion",
     location: "Philadelphia",
     rating: 5,
     date: "2024-10-08",
