@@ -12,38 +12,76 @@ import { useEffect, useState } from "react";
 import { getTimestampInLimaTimezone } from "@/lib/utils";
 
 const PA_CITIES = [
-  "Philadelphia", "Pittsburgh", "Allentown", "Reading", "Erie", "Scranton",
-  "Bethlehem", "Lancaster", "Harrisburg", "Altoona", "York", "State College",
-  "Wilkes-Barre", "Chester", "Williamsport", "Easton", "Lebanon", "Hazleton",
-  "New Castle", "Johnstown", "McKeesport", "Hermitage", "Greensburg", "Pottstown",
-  "Bloomsburg", "Washington", "East Stroudsburg", "Carlisle", "Butler", "Chambersburg",
-  "Phoenixville", "Monroeville", "Plum", "Murrysville", "West Chester", "King of Prussia",
-  "Norristown", "Willow Grove", "Drexel Hill", "Levittown", "Media", "Broomall",
-  "Marlton", "Cherry Hill", "Voorhees", "Mount Laurel"
+  "Philadelphia",
+  "Pittsburgh",
+  "Allentown",
+  "Reading",
+  "Erie",
+  "Scranton",
+  "Bethlehem",
+  "Lancaster",
+  "Harrisburg",
+  "Altoona",
+  "York",
+  "State College",
+  "Wilkes-Barre",
+  "Chester",
+  "Williamsport",
+  "Easton",
+  "Lebanon",
+  "Hazleton",
+  "New Castle",
+  "Johnstown",
+  "McKeesport",
+  "Hermitage",
+  "Greensburg",
+  "Pottstown",
+  "Bloomsburg",
+  "Washington",
+  "East Stroudsburg",
+  "Carlisle",
+  "Butler",
+  "Chambersburg",
+  "Phoenixville",
+  "Monroeville",
+  "Plum",
+  "Murrysville",
+  "West Chester",
+  "King of Prussia",
+  "Norristown",
+  "Willow Grove",
+  "Drexel Hill",
+  "Levittown",
+  "Media",
+  "Broomall",
+  "Marlton",
+  "Cherry Hill",
+  "Voorhees",
+  "Mount Laurel",
 ].sort();
 
 const heroFormSchema = z.object({
-  name: z.string()
+  name: z
+    .string()
     .trim()
     .min(2, "Name must be at least 2 characters")
     .max(100, "Name must be less than 100 characters")
     .regex(/^[a-zA-Z\s'-]+$/, "Name can only contain letters, spaces, hyphens, and apostrophes"),
-  email: z.string()
+  email: z
+    .string()
     .trim()
     .email("Please enter a valid email address")
     .max(255, "Email must be less than 255 characters"),
-  phone: z.string()
+  phone: z
+    .string()
     .trim()
     .regex(/^[\d\s()+-]+$/, "Phone can only contain numbers and standard formatting characters")
     .min(10, "Phone number must be at least 10 digits"),
-  city: z.string()
-    .min(1, "Please select a city"),
-  projectType: z.string()
-    .min(1, "Please select a project type"),
-  consent: z.boolean()
-    .refine((val) => val === true, {
-      message: "You must accept the terms and conditions to continue"
-    }),
+  city: z.string().min(1, "Please select a city"),
+  projectType: z.string().min(1, "Please select a project type"),
+  consent: z.boolean().refine((val) => val === true, {
+    message: "You must accept the terms and conditions to continue",
+  }),
   utm_source: z.string().optional(),
   utm_medium: z.string().optional(),
   utm_campaign: z.string().optional(),
@@ -84,14 +122,14 @@ export const Hero = () => {
   useEffect(() => {
     const urlParams = new URLSearchParams(window.location.search);
     const utmData = {
-      utm_source: urlParams.get('utm_source') || '',
-      utm_medium: urlParams.get('utm_medium') || '',
-      utm_campaign: urlParams.get('utm_campaign') || '',
-      utm_content: urlParams.get('utm_content') || '',
-      utm_term: urlParams.get('utm_term') || '',
+      utm_source: urlParams.get("utm_source") || "",
+      utm_medium: urlParams.get("utm_medium") || "",
+      utm_campaign: urlParams.get("utm_campaign") || "",
+      utm_content: urlParams.get("utm_content") || "",
+      utm_term: urlParams.get("utm_term") || "",
     };
 
-    setFormData(prev => ({
+    setFormData((prev) => ({
       ...prev,
       ...utmData,
     }));
@@ -104,7 +142,7 @@ export const Hero = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setErrors({});
-    
+
     // Validate form data
     try {
       heroFormSchema.parse(formData);
@@ -130,9 +168,8 @@ export const Hero = () => {
 
     try {
       // Save to database
-      const { error: dbError } = await supabase
-        .from('form_submissions')
-        .insert([{
+      const { error: dbError } = await supabase.from("form_submissions").insert([
+        {
           name: formData.name,
           email: formData.email,
           phone: formData.phone,
@@ -144,28 +181,29 @@ export const Hero = () => {
           utm_campaign: formData.utm_campaign || null,
           utm_content: formData.utm_content || null,
           utm_term: formData.utm_term || null,
-        }]);
+        },
+      ]);
 
       if (dbError) throw dbError;
 
       // Send email notification
-      await supabase.functions.invoke('send-contact-email', {
+      await supabase.functions.invoke("send-contact-email", {
         body: formData,
       });
 
       // Send webhook
-      await supabase.functions.invoke('send-webhook', {
+      await supabase.functions.invoke("send-webhook", {
         body: {
           ...formData,
           project_type: formData.projectType,
-          created_at: getTimestampInLimaTimezone()
+          created_at: getTimestampInLimaTimezone(),
         },
       });
 
       // Redirect to thank you page
-      navigate('/thank-you');
+      navigate("/thank-you");
     } catch (error: any) {
-      console.error('Form submission error:', error);
+      console.error("Form submission error:", error);
       toast({
         title: "Submission Failed",
         description: "There was an error submitting your request. Please try again or call us directly.",
@@ -176,15 +214,13 @@ export const Hero = () => {
     }
   };
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
-  ) => {
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
-    
+
     if (errors[name]) {
       setErrors({ ...errors, [name]: "" });
     }
-    
+
     setFormData({
       ...formData,
       [name]: value,
@@ -192,7 +228,7 @@ export const Hero = () => {
   };
 
   const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value.replace(/[^\d\s()+-]/g, '');
+    const value = e.target.value.replace(/[^\d\s()+-]/g, "");
     if (errors.phone) {
       setErrors({ ...errors, phone: "" });
     }
@@ -203,7 +239,7 @@ export const Hero = () => {
   };
 
   const handleNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value.replace(/[^a-zA-Z\s'-]/g, '');
+    const value = e.target.value.replace(/[^a-zA-Z\s'-]/g, "");
     if (errors.name) {
       setErrors({ ...errors, name: "" });
     }
@@ -217,9 +253,9 @@ export const Hero = () => {
     <section className="relative min-h-[600px] md:min-h-[700px] flex items-center overflow-hidden">
       {/* Background Image */}
       <div className="absolute inset-0">
-        <img 
-          src={heroHome} 
-          alt="Beautiful painted suburban home" 
+        <img
+          src={heroHome}
+          alt="Beautiful painted suburban home"
           className="w-full h-full object-cover transition-transform duration-300 ease-out"
           style={{ transform: `translateY(${scrollY * 0.3}px)` }}
           fetchPriority="high"
@@ -233,17 +269,18 @@ export const Hero = () => {
           {/* Left side - Hero text */}
           <div>
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-primary-foreground mb-6 leading-tight animate-fadeInUp delay-100">
-              Clean Inside.
+              Painted Inside.
               <br />
-              Proud Outside.
+              Shine Outside.
             </h1>
             <p className="text-xl md:text-2xl text-primary-foreground/90 mb-8 leading-relaxed animate-fadeInUp delay-200">
-              Professional painting for Philadelphia and nearby areas homes. On-time arrival, zero-mess process, and results that last.
+              Professional painting for Philadelphia and nearby areas homes. On-time arrival, zero-mess process, and
+              results that last.
             </p>
-            
+
             <div className="flex flex-col sm:flex-row gap-4 animate-fadeInUp delay-300">
-              <Button 
-                variant="outline" 
+              <Button
+                variant="outline"
                 size="lg"
                 className="text-lg px-8 py-6 border-2 border-primary-foreground bg-primary-foreground/10 text-primary-foreground font-semibold hover:bg-accent hover:text-accent-foreground hover:border-accent transition-all duration-300"
                 asChild
@@ -262,16 +299,14 @@ export const Hero = () => {
 
           {/* Right side - Compact form */}
           <div className="bg-card/95 backdrop-blur-sm p-6 md:p-8 rounded-lg shadow-2xl animate-fadeInUp delay-500">
-            <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-2">
-              Get Your Free Estimate
-            </h2>
-            <p className="text-muted-foreground mb-6">
-              Response in less than 24 hours
-            </p>
-            
+            <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-2">Get Your Free Estimate</h2>
+            <p className="text-muted-foreground mb-6">Response in less than 24 hours</p>
+
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <Label htmlFor="hero-name" className="text-foreground">Name *</Label>
+                <Label htmlFor="hero-name" className="text-foreground">
+                  Name *
+                </Label>
                 <Input
                   id="hero-name"
                   name="name"
@@ -281,13 +316,13 @@ export const Hero = () => {
                   placeholder="Your name"
                   className="mt-1"
                 />
-                {errors.name && (
-                  <p className="text-sm text-destructive mt-1">{errors.name}</p>
-                )}
+                {errors.name && <p className="text-sm text-destructive mt-1">{errors.name}</p>}
               </div>
 
               <div>
-                <Label htmlFor="hero-phone" className="text-foreground">Phone *</Label>
+                <Label htmlFor="hero-phone" className="text-foreground">
+                  Phone *
+                </Label>
                 <Input
                   id="hero-phone"
                   name="phone"
@@ -298,13 +333,13 @@ export const Hero = () => {
                   placeholder="(555) 555-5555"
                   className="mt-1"
                 />
-                {errors.phone && (
-                  <p className="text-sm text-destructive mt-1">{errors.phone}</p>
-                )}
+                {errors.phone && <p className="text-sm text-destructive mt-1">{errors.phone}</p>}
               </div>
 
               <div>
-                <Label htmlFor="hero-email" className="text-foreground">Email *</Label>
+                <Label htmlFor="hero-email" className="text-foreground">
+                  Email *
+                </Label>
                 <Input
                   id="hero-email"
                   name="email"
@@ -315,13 +350,13 @@ export const Hero = () => {
                   placeholder="your@email.com"
                   className="mt-1"
                 />
-                {errors.email && (
-                  <p className="text-sm text-destructive mt-1">{errors.email}</p>
-                )}
+                {errors.email && <p className="text-sm text-destructive mt-1">{errors.email}</p>}
               </div>
 
               <div>
-                <Label htmlFor="hero-city" className="text-foreground">City/Town (PA) *</Label>
+                <Label htmlFor="hero-city" className="text-foreground">
+                  City/Town (PA) *
+                </Label>
                 <select
                   id="hero-city"
                   name="city"
@@ -337,13 +372,13 @@ export const Hero = () => {
                     </option>
                   ))}
                 </select>
-                {errors.city && (
-                  <p className="text-sm text-destructive mt-1">{errors.city}</p>
-                )}
+                {errors.city && <p className="text-sm text-destructive mt-1">{errors.city}</p>}
               </div>
 
               <div>
-                <Label htmlFor="hero-projectType" className="text-foreground">Project Type *</Label>
+                <Label htmlFor="hero-projectType" className="text-foreground">
+                  Project Type *
+                </Label>
                 <select
                   id="hero-projectType"
                   name="projectType"
@@ -359,9 +394,7 @@ export const Hero = () => {
                   <option value="combo">Interior + Exterior Combo</option>
                   <option value="other">Other</option>
                 </select>
-                {errors.projectType && (
-                  <p className="text-sm text-destructive mt-1">{errors.projectType}</p>
-                )}
+                {errors.projectType && <p className="text-sm text-destructive mt-1">{errors.projectType}</p>}
               </div>
 
               <div className="flex items-start space-x-2">
@@ -381,17 +414,12 @@ export const Hero = () => {
                     className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 cursor-pointer"
                   >
                     I agree to the{" "}
-                    <Link 
-                      to="/terms" 
-                      target="_blank"
-                      className="text-accent hover:underline font-semibold"
-                    >
+                    <Link to="/terms" target="_blank" className="text-accent hover:underline font-semibold">
                       Terms & Conditions
-                    </Link> *
+                    </Link>{" "}
+                    *
                   </label>
-                  {errors.consent && (
-                    <p className="text-sm text-destructive">{errors.consent}</p>
-                  )}
+                  {errors.consent && <p className="text-sm text-destructive">{errors.consent}</p>}
                 </div>
               </div>
 
@@ -402,10 +430,10 @@ export const Hero = () => {
               <input type="hidden" name="utm_content" value={formData.utm_content} />
               <input type="hidden" name="utm_term" value={formData.utm_term} />
 
-              <Button 
-                type="submit" 
-                variant="cta" 
-                size="lg" 
+              <Button
+                type="submit"
+                variant="cta"
+                size="lg"
                 className="w-full text-lg"
                 disabled={isSubmitting || !formData.consent}
               >
