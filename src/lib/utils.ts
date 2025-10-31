@@ -10,5 +10,14 @@ export function getTimestampInLimaTimezone(): string {
   const date = new Date();
   const utcTime = date.getTime() + (date.getTimezoneOffset() * 60000);
   const limaTime = new Date(utcTime + (3600000 * -5));
-  return limaTime.toISOString();
+  
+  // Format manually to preserve Lima time in ISO format
+  const year = limaTime.getFullYear();
+  const month = String(limaTime.getMonth() + 1).padStart(2, '0');
+  const day = String(limaTime.getDate()).padStart(2, '0');
+  const hours = String(limaTime.getHours()).padStart(2, '0');
+  const minutes = String(limaTime.getMinutes()).padStart(2, '0');
+  const seconds = String(limaTime.getSeconds()).padStart(2, '0');
+  
+  return `${year}-${month}-${day}T${hours}:${minutes}:${seconds}-05:00`;
 }
