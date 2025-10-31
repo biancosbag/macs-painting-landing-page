@@ -269,7 +269,7 @@ export const Hero = () => {
           {/* Left side - Hero text */}
           <div>
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-primary-foreground mb-6 leading-tight animate-fadeInUp delay-100">
-              Painted Inside.
+              Paint Inside.
               <br />
               Shine Outside.
             </h1>
