@@ -9,6 +9,7 @@ import { useToast } from "@/hooks/use-toast";
 import { Phone, Mail } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
 import { z } from "zod";
+import { getTimestampInLimaTimezone } from "@/lib/utils";
 
 const PA_CITIES = [
   "Philadelphia", "Pittsburgh", "Allentown", "Reading", "Erie", "Scranton",
@@ -160,7 +161,7 @@ export const ContactForm = () => {
         body: {
           ...formData,
           project_type: formData.projectType,
-          created_at: new Date().toISOString()
+          created_at: getTimestampInLimaTimezone()
         },
       });
 

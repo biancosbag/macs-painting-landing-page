@@ -36,6 +36,14 @@ const handler = async (req: Request): Promise<Response> => {
       throw new Error('WEBHOOK_URL not configured');
     }
 
+    // Convert to Lima timezone (UTC-5)
+    const getTimestampInLimaTimezone = () => {
+      const date = new Date();
+      const utcTime = date.getTime() + (date.getTimezoneOffset() * 60000);
+      const limaTime = new Date(utcTime + (3600000 * -5));
+      return limaTime.toISOString();
+    };
+
     // Send the webhook
     const webhookResponse = await fetch(webhookUrl, {
       method: 'POST',
@@ -44,7 +52,7 @@ const handler = async (req: Request): Promise<Response> => {
       },
       body: JSON.stringify({
         ...formData,
-        timestamp: new Date().toISOString(),
+        timestamp: getTimestampInLimaTimezone(),
       }),
     });
 

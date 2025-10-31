@@ -9,6 +9,7 @@ import { z } from "zod";
 import { Phone } from "lucide-react";
 import heroHome from "@/assets/hero-home.jpg";
 import { useEffect, useState } from "react";
+import { getTimestampInLimaTimezone } from "@/lib/utils";
 
 const PA_CITIES = [
   "Philadelphia", "Pittsburgh", "Allentown", "Reading", "Erie", "Scranton",
@@ -157,7 +158,7 @@ export const Hero = () => {
         body: {
           ...formData,
           project_type: formData.projectType,
-          created_at: new Date().toISOString()
+          created_at: getTimestampInLimaTimezone()
         },
       });
 
